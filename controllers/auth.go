@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type LoginInput struct {
@@ -20,17 +21,27 @@ func Login(c *gin.Context) {
 		return
 	}
 
+	// input.Username = strings.TrimSpace(input.Username) // Isso seria bom para evitar espaços no começo e no final dos inputs, [import "strings"]
+	// input.Password = strings.TrimSpace(input.Password)
+
 	var user models.User
-	if err := config.DB.Where("username = ? AND password = ?", input.Username, input.Password).First(&user).Error; err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "Usuário ou senha inválidos."})
+
+	if err := config.DB.Where("username = ?", input.Username).First(&user).Error; err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Usuário ou senha incorretos."})
+		return
+	}
+
+	err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(input.Password))
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Usuário ou senha incorretos."})
 		return
 	}
 
 	token, err := GenerateKey(user.Username)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Erro ao gerar o acess_token (JWT)"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Erro ao gerar o access_token (JWT)"})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"message": "Login realiado com sucesso!", "acess_token": token})
+	c.JSON(http.StatusOK, gin.H{"message": "Login realiado com sucesso!", "access_token": token})
 }
