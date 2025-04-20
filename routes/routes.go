@@ -16,7 +16,7 @@ func SetupRoutes(router *gin.Engine) {
 	protected.Use(middleware.AuthMiddleware())
 	{
 		// Rotas de usuários (CRUD)
-		userRoutes := router.Group("/users")
+		userRoutes := protected.Group("/users")
 		{
 			userRoutes.POST("/", controllers.CreateUser)
 			userRoutes.GET("/", controllers.GetUsers)
