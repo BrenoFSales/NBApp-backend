@@ -26,5 +26,11 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"message": "Login realiado com sucesso!"})
+	token, err := GenerateKey(user.Username)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Erro ao gerar o acess_token (JWT)"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Login realiado com sucesso!", "acess_token": token})
 }
