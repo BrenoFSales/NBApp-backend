@@ -14,6 +14,8 @@ import (
 func main() {
 	config.ConnectDatabase()
 
+	// config.InsertTeams()
+
 	r := gin.Default()
 
 	// Habilita requisições vindas do frontend no localhost:8081

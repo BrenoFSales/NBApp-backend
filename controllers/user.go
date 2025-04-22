@@ -52,7 +52,7 @@ func GetUsers(c *gin.Context) {
 func GetUserByID(c *gin.Context) {
 	var user models.User
 	if err := config.DB.First(&user, c.Param("id")).Error; err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "Usuário não encontratod."})
+		c.JSON(http.StatusNotFound, gin.H{"error": "Usuário não encontrato."})
 		return
 	}
 

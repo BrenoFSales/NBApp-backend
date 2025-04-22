@@ -24,5 +24,11 @@ func SetupRoutes(router *gin.Engine) {
 			userRoutes.PUT("/:id", controllers.UpdateUser)
 			userRoutes.DELETE("/:id", controllers.DeleteUser)
 		}
+
+		teamRoutes := protected.Group("/teams")
+		{
+			teamRoutes.GET("/", controllers.GetTeams)
+			teamRoutes.GET("/:id", controllers.GetTeamsById)
+		}
 	}
 }
