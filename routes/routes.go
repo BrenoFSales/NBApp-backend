@@ -11,6 +11,9 @@ func SetupRoutes(router *gin.Engine) {
 	// Rota do login
 	router.POST("/login", controllers.Login)
 
+	// Rota desprotegida temporariamente
+	router.GET("/team-logo/:id", controllers.GetLogo)
+
 	// Rotas proteginas
 	protected := router.Group("/")
 	protected.Use(middleware.AuthMiddleware())
@@ -30,7 +33,7 @@ func SetupRoutes(router *gin.Engine) {
 			teamRoutes.GET("/", controllers.GetTeams)
 			teamRoutes.GET("/:id", controllers.GetTeamsById)
 			teamRoutes.PUT("/upload-logo/:id", controllers.UploadLogoTeam)
-			teamRoutes.GET("/logo/:id", controllers.GetLogo)
+			// teamRoutes.GET("/logo/:id", controllers.GetLogo)
 		}
 	}
 }
