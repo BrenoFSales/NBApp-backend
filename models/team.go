@@ -10,4 +10,5 @@ type Team struct {
 	Name         string `gorm:"type:text"`
 	FullName     string `gorm:"type:text"`
 	Abbreviation string `gorm:"type:text"`
+	LogoBase64   string `gorm:"type:text"`
 }

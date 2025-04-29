@@ -29,6 +29,7 @@ func SetupRoutes(router *gin.Engine) {
 		{
 			teamRoutes.GET("/", controllers.GetTeams)
 			teamRoutes.GET("/:id", controllers.GetTeamsById)
+			teamRoutes.PUT("/upload-logo/:id", controllers.UploadLogoTeam)
 		}
 	}
 }
